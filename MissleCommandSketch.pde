@@ -27,17 +27,14 @@ float buttonA_x = 103.8;
 int buttonA_y = 35;
 int buttonA_width = 120;
 int buttonA_height = 85;
-int buttonA_colorR = 0x25;
-int buttonA_colorG = 0x25;
-int buttonA_colorB = 0x25;
 
 float buttonB_x = 103.8;
 int buttonB_y = 130;
 int buttonB_width = 120;
 int buttonB_height = 85;
-int buttonB_colorR = 0x25;
-int buttonB_colorG = 0x25;
-int buttonB_colorB = 0x25;
+
+boolean buttonA_over = false;
+boolean buttonB_over = false;
 
 boolean buttonA_clicked = false;
 boolean buttonB_clicked = false;
@@ -90,7 +87,6 @@ void setup() {
 
 // update particles, render.
 void draw() {
-  
   if (state == GameState.STARTED) {
     noCursor();
     background(128) ;    
@@ -103,6 +99,7 @@ void draw() {
     checkForCollisions();    
     drawExplosions();
   } else if (state == GameState.MAIN_MENU) {
+    updateMainMenu();
     drawMainMenu();
   } else {
       textSize(50);
@@ -240,10 +237,18 @@ boolean isMeteorInExplosionRange(Particle meteor, Explosion explosion) {
 
 void drawMainMenu() {
   
-    fill(buttonA_colorR, buttonA_colorG, buttonA_colorB);
+  if (buttonA_over) {
+    fill(buttonHighlight);
+  } else {
+    fill(0);
+  }
   rect(buttonA_x, buttonA_y, buttonA_width, buttonA_height);
 
-  fill(buttonB_colorR, buttonB_colorG, buttonA_colorB);
+   if (buttonB_over) {
+    fill(buttonHighlight);
+  } else {
+    fill(0);
+  }
   rect(buttonB_x, buttonB_y, buttonB_width, buttonB_height);
   
   fill(255); 
@@ -269,27 +274,30 @@ int y = year();
 
   textAlign(CENTER, CENTER); 
   fill(255);
-  text("START", 
+  text("START GAME", 
     buttonA_x+buttonA_width/2, buttonA_y+buttonA_height/2);
 
   fill(255); 
-  text("STOP", 
+  text("QUIT", 
     buttonB_x+buttonB_width/2, buttonB_y+buttonB_height/2);
 
-  // reset 
+  // reset alignment
   textAlign(LEFT);
 }
 
-void updateMainMenu(int x, int y) {
-  if (overRect(buttonA_width, buttonA_height, buttonA_width, buttonA_height)) {
-    rectOver = true;
-    circleOver = false;
+void updateMainMenu() {
+  if (overRect(buttonA_x, buttonA_y, buttonA_width, buttonA_height)) {
+    buttonA_over = true;
+    buttonB_over = false;
+  } else if (overRect(buttonB_x, buttonB_y, buttonB_width, buttonB_height)) {
+    buttonA_over = false;
+    buttonB_over = true;
   } else {
-    circleOver = rectOver = false;
+    buttonA_over = buttonB_over = false;
   }
 }
 
-boolean overRect(int x, int y, int width, int height)  {
+boolean overRect(float x, float y, int width, int height)  {
   if (mouseX >= x && mouseX <= x+width && 
       mouseY >= y && mouseY <= y+height) {
     return true;

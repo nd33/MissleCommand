@@ -36,9 +36,6 @@ int buttonB_height = 85;
 boolean buttonA_over = false;
 boolean buttonB_over = false;
 
-boolean buttonA_clicked = false;
-boolean buttonB_clicked = false;
-
 //// A force generator that applies a force specified by the user.
 //UserForce userForce ;
 
@@ -113,7 +110,16 @@ void mousePressed() {
   xStart = mouseX ;
   yStart = mouseY ;
   
-  missles.add(gun.shoot(mouseX,mouseY));
+  if(buttonA_over) {
+    state = GameState.STARTED;
+    buttonA_over = false;
+  } else if (buttonB_over) {
+    buttonB_over = false;
+    exit();
+  } else {
+    missles.add(gun.shoot(mouseX,mouseY));
+  }
+  
 }
 
 // When mouse is released create new vector relative to stored x, y coords

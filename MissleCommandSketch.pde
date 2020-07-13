@@ -211,7 +211,7 @@ boolean isMeteorInPyramidRange(Particle meteor, Pyramid pyramid) {
       PVector distance = meteor.position.get();
       distance.sub(buildingBlock.position);
       if (distance.mag() < OBJECT_SIZE) {
-        return true; //<>//
+        return true; //<>// //<>//
     }
   }
   return false;

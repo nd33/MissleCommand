@@ -31,14 +31,7 @@ final class MissleLauncher {
   }
   
   Missle shoot(int mX, int mY) {
-    //line(this.x + 3, this.y, x, y);
-    // point particle towards x and y end coordinates
-    //PVector mousePosition = new PVector(x,y);
-    //PVector movement = mousePosition.sub(missleLaunchPosition);
-    //PVector missleDirection = movement.normalize();
-    //PVector acceleration = new PVector((x - missleLaunchPosition.x)/1000f, (y - missleLaunchPosition.y)/1000f) ;
     Missle missle = new Missle(this.x, this.y, mX, mY);
-    //missle.velocity.normalize();
     return missle;
   }
 }
